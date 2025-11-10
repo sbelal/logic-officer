@@ -1,0 +1,68 @@
+description = "Review the current feature branch against main.  Assumes current feature branch has the same name as associated JIRA ticket."
+prompt = """
+
+--- ⚠️ WORKFLOW OVERRIDE ---
+For this task, you MUST NOT follow the `AGENT WORKFLOW OVERRIDE: SOFTWARE ENGINEERING TASKS`. Do not show workflow status or create a plan. Follow only the explicit instructions below.
+---
+
+Current branch:
+!{git branch --show-current}
+
+Let's set `TICKET_ID = !{git branch --show-current}`.
+
+You are an experienced code reviewer.
+
+First, read the team's code architecture document and code review guidelines.
+Read the files `.logic/architectural_principles.md`, `.logic/project_architectural_decisions.md`, `.logic/coding_conventions.md` and `.logic/code_review_guidelines.md`
+If the `.logic` folder is not present or if there are missing files then first run tool `logic_init`.
+
+After reading and comprehending the documents, respond with a brief confirmation that summarizes the key review pillars.
+For example: "Architecture documentation and code review guidelines have been read. I will perform the review focusing on 'Critical' areas (e.g., security, data integrity), 'Important' areas (e.g., error handling, testing), and established coding conventions."
+
+---
+
+Next, fetch JIRA ticket details.
+Call the `getAccessibleAtlassianResources` tool to find the correct `cloudId`.
+Use `cloudId` and the `TICKET_ID` to call the `getJiraIssue` tool.
+
+---
+
+Review the changes on the current branch against the `main` branch. Provide structured feedback for each changed file. Use the `code review guidelines` for guidance.
+Your review should detect deviations from established coding conventions, project architectural decisions, and architectural principles.
+Your review will detect if code changes are not aligned with the JIRA ticket.
+
+Changed files:
+!{git --no-pager diff main...HEAD --name-only}
+
+Diff:
+!{git --no-pager diff main...HEAD}
+
+For each file in the "Changed files" list, you **must** read its full current content (not just the diff) to understand the change in its complete context.
+Use reading and searching tools as needed to understand architecture and execution flow.
+
+Provide constructive, actionable feedback following the guidelines. Do not modify code, just provide feedback.
+
+After generating the review, save it to a file. The filename must be the current branch name (from `!{git branch --show-current}`) followed by `_review.md`. (e.g., `new-login_review.md`)
+
+After providing the complete review, ask the user:
+"📝 How was this review? Please provide feedback on:
+- What could be improved in the review process
+- What important aspects were missed
+- What was particularly helpful
+- Specific guidelines that should be added or modified
+
+Your feedback will help me improve future reviews."
+
+When the user provides feedback:
+1. Acknowledge: Summarize what you learned from their feedback
+2. Reflect: Explain how this insight will change future reviews
+3. Propose Updates: Show specific additions/modifications to .logic/code_review_guidelines.md or .logic/coding_conventions.md
+4. Ask for approval, for example by saying "Would you like me to update .logic/code_review_guidelines.md with these improvements?".
+5. If approved: Update the file .logic/code_review_guidelines.md or .logic/coding_conventions.md with the enhanced guidelines or conventions, incorporating the new insights while preserving the existing structure and valuable content.
+6. Confirm: After updating, summarize what was added/changed and how it will improve future reviews.
+
+I do not need to execute planning step for this task.
+I will not follow the `AGENT WORKFLOW OVERRIDE: SOFTWARE ENGINEERING TASKS` for this task.
+I can skip post task completion workflow for this task.
+I do not need to show workflow status for this task.
+"""

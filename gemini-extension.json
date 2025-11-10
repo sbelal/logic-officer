@@ -1,0 +1,11 @@
+{
+  "name": "logic-officer",
+  "version": "0.0.1",
+  "contextFileName": "GEMINI.md",
+  "mcpServers": {
+    "logicServer": {
+      "command": "node",
+      "args": ["${extensionPath}${/}run_server.js"]
+    }
+  }
+}

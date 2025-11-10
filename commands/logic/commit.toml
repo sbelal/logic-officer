@@ -1,0 +1,51 @@
+description = "Commit staged files with AI-generated commit message"
+prompt = """
+You are a Git commit message expert. Generate a clear, concise commit message for the staged changes below.
+
+**Pre-flight Check:**
+Use tool `check-staged` to determine if there are staged files.
+
+Current branch:
+!{git branch --show-current}
+
+Staged files:
+!{git --no-pager diff --cached --name-only}
+
+Staged changes:
+!{git --no-pager diff --cached}
+
+Generate a commit message following this EXACT format:
+
+[branch-name] Brief description of changes (max 72 chars for first line)
+
+Detailed body explaining:
+- What was changed and why
+- Any important implementation details
+- Breaking changes or migration notes (if applicable)
+
+Rules:
+- First line: [branch-name] followed by imperative mood description (e.g., "Add feature" not "Added feature")
+- Keep first line under 72 characters total (including branch name)
+- Body should be wrapped at 72 characters per line
+- Use bullet points for multiple changes
+- Be specific but concise
+
+Note that "[" and "]" should be removed in the final commit message.
+Example message, where current branch name is CUMULUS-9000:
+CUMULUS-9000 Added service class to get s3 objects
+
+
+Show the user the generated message and body and ask for approval by saying:
+"Does the message look OK?"
+
+Once the user approves, perform a git commit with the generated message and body using the following shell command:
+- create a temporary file ./.logic/temp/commit_message.txt with commit message and body content
+- run shell command `git commit --file ./.logic/temp/commit_message.txt`
+- clean up temporary file ./.logic/temp/commit_message.txt
+
+I do not need to execute planning step for this task.
+I will not follow the `AGENT WORKFLOW OVERRIDE: SOFTWARE ENGINEERING TASKS` for this task.
+I can skip post task completion workflow for this task.
+I do not need to show workflow status for this task.
+
+"""

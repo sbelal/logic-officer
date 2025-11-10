@@ -1,0 +1,42 @@
+description = "Generates a pull request message for the current branch."
+
+prompt = """
+# TASK: Generate pull request Message
+
+Let's generate a pull request message for the current branch.
+
+## 1. Get Branch and Diff
+
+Current Branch: !{git rev-parse --abbrev-ref HEAD}
+
+Changed files:
+!{git --no-pager diff main...HEAD --name-only}
+
+Branch Diff:
+!{git --no-pager diff main...HEAD}
+
+## 2. Generate Pull Request Message
+
+Based on the branch name and the diff, generate a pull request message.
+The message should have a title and a description.
+The title should be a concise summary of the changes.
+The description should explain:
+- What was changed and why
+- Any important implementation details
+- Breaking changes or migration notes (if applicable)
+
+Format the output as a Github pull request message.
+
+## 3. Save the content to file
+The filename must be the current branch name (from `!{git branch --show-current}`) followed by `_pr_message.md`.
+
+---
+
+I do not need to execute planning step for this task.
+I will not follow the `AGENT WORKFLOW OVERRIDE: SOFTWARE ENGINEERING TASKS` for this task.
+I can skip post task completion workflow for this task.
+I do not need to show workflow status for this task.
+
+"""
+
+
