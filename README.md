@@ -1,5 +1,7 @@
 # Logic-Officer
 
+![Logic](./assets/logic-officer.png)
+
 Logic-Officer is a powerful, agentic coding tool designed to accelerate your development workflow. By leveraging the capabilities of Large Language Models (LLMs), Logic-Officer helps you with a variety of development tasks, from generating code to reviewing merge requests.
 
 
