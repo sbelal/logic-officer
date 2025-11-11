@@ -88,7 +88,7 @@ Before you can use Logic-Officer, you'll need the following installed:
 Logic-Officer is a `gemini-cli` extension. To install it, run the following command in your terminal:
 
 ```bash
-gemini extensions install [https://github.com/sbelal/logic-officer.git](https://github.com/sbelal/logic-officer.git)
+gemini extensions install https://github.com/sbelal/logic-officer.git
 ```
 
 That's it! The `gemini-cli` will now have access to the custom commands and context provided by Logic-Officer.
